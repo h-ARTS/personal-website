@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
-  css: ["vuetify/styles"],
+  css: ["vuetify/styles", "@mdi/font/css/materialdesignicons.css"],
   vite: {
     ssr: {
       noExternal: ["vuetify"],
