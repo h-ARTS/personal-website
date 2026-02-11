@@ -1,10 +1,10 @@
-import { ThemeDefinition, createVuetify } from "vuetify"
+import { createVuetify } from "vuetify"
 
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
-    // theme: {
-    //   defaultTheme: "dark",
-    // },
+    theme: {
+      defaultTheme: "dark",
+    },
   })
 
   nuxtApp.vueApp.use(vuetify)

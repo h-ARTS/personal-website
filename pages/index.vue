@@ -1,61 +1,64 @@
 <template>
-  <div>
-    <v-header />
-    <v-main>
-      <component v-for="(block, idx) in data.blocks" 
-            :key="idx" 
-            :is="component[block.type]" 
-            :block="block" />
-    </v-main>
-  </div>
+  <ClientOnly>
+    <div class="hero">
+      <h1 class="hero-title">Hanan Mufti</h1>
+      <p class="hero-subtitle">Software Engineer - Frontend Specialist</p>
+      <v-btn to="/about" class="hero-btn">Explore My Work</v-btn>
+    </div>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, reactive, ref, markRaw } from 'vue'
-const VHeadline = resolveComponent('VHeadline')
-const VTeaser = resolveComponent('VTeaser')
-const VGrid = markRaw(resolveComponent('VGrid'))
-const VCard = resolveComponent('VCard')
-
 useHead({
-  title: 'Hanan Mufti - Software Engineer',
+  title: 'Hanan Mufti - Software Engineer'
 })
-
-interface Data {
-  url?: URL | null,
-  blocks: Array<Block>
-}
-
-interface Block {
-  type: keyof typeof component.value
-}
-
-const data: Data = reactive({ url: null, blocks: [] })
-
-const handleReceiveMessage = (event: MessageEvent) => {
-  console.log('Received message:', event.data);
-  data.blocks = event.data
-  console.log('Data blocks:', data.blocks);
-};
 
 onMounted(() => {
-  const currentUrl = new URL(window.location.href)
-  data.url = currentUrl
-  if (currentUrl.searchParams.has('editMode'))
-    window.addEventListener('message', handleReceiveMessage)
-})
-
-const component = ref({
-  Headline: VHeadline,
-  Teaser: VTeaser,
-  Grid: VGrid,
-  Card: VCard
-})
-
-onUnmounted(() => {
-  window.removeEventListener('message', handleReceiveMessage)
+  const { gsap } = useGsap()
+  gsap.from('.hero-title', {
+    opacity: 0,
+    y: -50,
+    duration: 1
+  })
+  gsap.from('.hero-subtitle', {
+    opacity: 0,
+    y: 50,
+    duration: 1,
+    delay: 0.5
+  })
+  gsap.from('.hero-btn', {
+    opacity: 0,
+    scale: 0.8,
+    duration: 0.8,
+    delay: 1
+  })
 })
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.hero-btn {
+  background: white;
+  color: #667eea;
+}
 </style>
