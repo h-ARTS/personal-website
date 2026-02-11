@@ -1,5 +1,5 @@
 <template>
-  <div class="headline">
+  <div class="headline" :style="{ backgroundImage: `url(${backgroundImageUrl})` }" v-lazy="backgroundImageUrl">
     <h1 class="title">{{ block.content.title }}</h1>
     <h2 class="subtitle">{{ block.content.subtitle }}</h2>
     <v-btn v-if="block.content.cta_button_label" @click="onButtonClick">
@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, ref } from 'vue'
 
 const props = defineProps<{
   block: {
@@ -17,6 +17,7 @@ const props = defineProps<{
       title: string
       subtitle: string
       cta_button_label: string
+      bg_image_url: string
     }
     children: []
   }
@@ -27,11 +28,17 @@ const emit = defineEmits(['button-click'])
 const onButtonClick = () => {
   emit('button-click')
 }
+
+const backgroundImageUrl = ref(props.block.content.bg_image_url)
 </script>
 
 <style scoped>
 .headline {
-  text-align: center;
+   text-align: center;
+  height: 300px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }
 
 .title {
